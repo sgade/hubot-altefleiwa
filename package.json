@@ -1,0 +1,24 @@
+{
+  "name": "hubot-altefleiwa",
+  "version": "1.0.0",
+  "description": "Menu of the Alte Fleiwa",
+  "main": "lib/index.coffee",
+  "scripts": {
+    "test": "test/index.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgade/hubot-altefleiwa.git"
+  },
+  "keywords": [
+    "ibs",
+    "cantina"
+  ],
+  "author": "Sören Gade <gade.soeren@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "html-entities": "^1.2.0",
+    "iconv-lite": "^0.4.13"
+  }
+}
