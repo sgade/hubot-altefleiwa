@@ -47,7 +47,7 @@ module.exports = (robot) ->
         cb err, res, null
 
 
-  robot.respond /feed me (tomorrow|mon|tue|wed|thu|fri)/i, (res) ->
+  robot.respond /feed me ?(tomorrow|mon|tue|wed|thu|fri)/i, (res) ->
 
     day = res.match[1]
     dayOfWeek = textToDayOfWeek day
