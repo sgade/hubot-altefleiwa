@@ -49,13 +49,16 @@ module.exports = (robot) ->
   robot.respond /(feed me)/i, (res) ->
 
     dayOfTheWeek = new Date().getDay()
+    replyForDayOfWeek dayOfTheWeek, res
+
+  replyForDayOfWeek = (dayOfWeek, res) ->
     if dayOfTheWeek < 1 || dayOfTheWeek > 5
       res.reply "I'm sorry, food is only served during the week."
       return
 
     getPlan (err, response, body) ->
       if !!err
-        res.reply "I'm sorry, I could not load the plan."
+        res.reply "I'm sorry, I could not load the plan. (\"" + err + "\")"
         return
 
       body = iconv.decode body, planEncoding
