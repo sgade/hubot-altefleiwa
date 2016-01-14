@@ -19,27 +19,32 @@
 http = require 'http'
 cheerio = require 'cheerio'
 entities = require('html-entities').AllHtmlEntities
-iconv = new require('iconv-lite')
+iconv = new require 'iconv-lite'
 
 planEncoding = "CP1252"
 planURL = "http://www.speisereise.com/content/speise/kantine_speiseplan.php"
 
-# We have our own http implementation because of encoding issues
-getPlan = (cb) ->
-  http.get planURL, (res) ->
-    body = null
-    res.on 'data', (bodyPart) ->
-      partBuffer = new Buffer(bodyPart, planEncoding)
-      if !body
-        body = partBuffer
-      else
-        body = Buffer.concat( [ body, partBuffer ] )
-    res.on 'error', (err) ->
-      cb err, res, null
-    res.on 'end', ->
-      cb null, res, body
-
 module.exports = (robot) ->
+
+  # We have our own http implementation because of encoding issues
+  getPlan = (cb) ->
+    # request the page
+    http.get planURL, (res) ->
+      body = null
+      # save all parts of the page
+      res.on 'data', (bodyPart) ->
+        partBuffer = new Buffer(bodyPart, planEncoding)
+        if !body
+          body = partBuffer
+        else
+          body = Buffer.concat( [ body, partBuffer ] )
+      # only call callback when all data is collected
+      res.on 'end', ->
+        cb null, res, body
+      # call callback on error
+      res.on 'error', (err) ->
+        cb err, res, null
+
 
   robot.respond /(feed me)/i, (res) ->
 
