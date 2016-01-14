@@ -10,6 +10,7 @@
 #
 # Commands:
 #   hubot feed me - Replys with today's menu.
+#   hubot feed me tomorrow - Replys with tomorrow's menu.
 #
 # Notes:
 #
