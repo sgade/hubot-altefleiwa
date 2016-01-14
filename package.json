@@ -1,6 +1,6 @@
 {
   "name": "hubot-altefleiwa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Menu of the Alte Fleiwa",
   "main": "lib/index.coffee",
   "scripts": {
