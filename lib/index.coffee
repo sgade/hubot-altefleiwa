@@ -24,6 +24,7 @@ iconv = new require('iconv-lite')
 planEncoding = "CP1252"
 planURL = "http://www.speisereise.com/content/speise/kantine_speiseplan.php"
 
+# We have our own http implementation because of encoding issues
 getPlan = (cb) ->
   http.get planURL, (res) ->
     body = null
