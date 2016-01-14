@@ -55,10 +55,10 @@ module.exports = (robot) ->
   robot.respond /feed me (tomorrow|next)/i, (res) ->
 
     tomorrow = ( new Date().getDay() + 1 ) % 7
-    replyForDayOfWeek dayOfTheWeek, res
+    replyForDayOfWeek tomorrow, res
 
   replyForDayOfWeek = (dayOfWeek, res) ->
-    if dayOfTheWeek < 1 || dayOfTheWeek > 5
+    if dayOfWeek < 1 || dayOfWeek > 5
       res.reply "I'm sorry, food is only served during the week."
       return
 
@@ -71,7 +71,7 @@ module.exports = (robot) ->
       $ = cheerio.load body
       tds = $ "td.speiseplan"
 
-      meals = getMealsForDay dayOfTheWeek, tds
+      meals = getMealsForDay dayOfWeek, tds
 
       text = ""
       if meals.length == 0
