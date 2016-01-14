@@ -46,9 +46,14 @@ module.exports = (robot) ->
         cb err, res, null
 
 
-  robot.respond /(feed me)/i, (res) ->
+  robot.respond /feed me/i, (res) ->
 
     dayOfTheWeek = new Date().getDay()
+    replyForDayOfWeek dayOfTheWeek, res
+
+  robot.respond /feed me (tomorrow|next)/i, (res) ->
+
+    tomorrow = ( new Date().getDay() + 1 ) % 7
     replyForDayOfWeek dayOfTheWeek, res
 
   replyForDayOfWeek = (dayOfWeek, res) ->
@@ -71,7 +76,7 @@ module.exports = (robot) ->
       if meals.length == 0
         text = "Nothing to eat today."
       else
-        text = "Today's meals:\n"
+        text = getTextForDayOfWeek(dayOfWeek) + "'s meals:\n"
         for meal in meals
           for i in [0..20]
             text += "-"
@@ -93,3 +98,19 @@ module.exports = (robot) ->
       meals.push mealDescription
 
     return meals
+
+  getTextForDayOfWeek = (dayOfWeek) ->
+    today = new Date().getDay()
+    if today == dayOfWeek
+      return "Today"
+    else if (today+1)%7 == dayOfWeek
+      return "Tomorrow"
+    else
+      switch dayOfWeek
+        when 0 then "Sunday"
+        when 1 then "Monday"
+        when 2 then "Tuesday"
+        when 3 then "Wednesday"
+        when 4 then "Thursday"
+        when 5 then "Friday"
+        when 6 then "Saturday"
