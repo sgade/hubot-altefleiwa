@@ -1,5 +1,5 @@
 # Description
-#   Dieckert-OL gets today's menu for the Dieckert Cantina.
+#   Gets today's menu for the Dieckert Cantina.
 #
 # Dependencies:
 #   "cheerio": "0.19.0"
