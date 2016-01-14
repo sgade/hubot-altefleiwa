@@ -35,7 +35,7 @@ module.exports = (robot) ->
       # save all parts of the page
       res.on 'data', (bodyPart) ->
         partBuffer = new Buffer(bodyPart, planEncoding)
-        if !body
+        if not body?
           body = partBuffer
         else
           body = Buffer.concat( [ body, partBuffer ] )
@@ -52,7 +52,7 @@ module.exports = (robot) ->
     day = res.match[1]
     dayOfWeek = textToDayOfWeek day
 
-    if not day
+    if not day?
       dayOfWeek = new Date().getDay()
     else if /tomorrow/i.test(day)
       dayOfWeek = ( new Date().getDay() + 1 ) % 7
@@ -65,7 +65,7 @@ module.exports = (robot) ->
       return
 
     getPlan (err, response, body) ->
-      if !!err
+      if err?
         res.reply "I'm sorry, I could not load the plan. (\"" + err + "\")"
         return
 
@@ -123,9 +123,9 @@ module.exports = (robot) ->
   getTextForDayOfWeek = (dayOfWeek) ->
     today = new Date().getDay()
     if today == dayOfWeek
-      return "Today"
+      "Today"
     else if (today+1)%7 == dayOfWeek
-      return "Tomorrow"
+      "Tomorrow"
     else
       switch dayOfWeek
         when 0 then "Sunday"
