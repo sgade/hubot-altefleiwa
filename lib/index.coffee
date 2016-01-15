@@ -119,6 +119,8 @@ module.exports = (robot) ->
     descriptions = []
 
     tds = $ "td .speisebold"
+    # don't slice here because the number of meals may vary
+
     for i in [0...tds.length]
       descriptions.push tds.eq(i).text()
 
