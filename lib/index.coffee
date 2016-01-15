@@ -87,16 +87,15 @@ module.exports = (robot) ->
       tds = $ "td.speiseplan"
 
       meals = getMealsForDay dayOfWeek, tds
+      mealDescriptions = getMealDescriptions $
 
       text = ""
       if meals.length == 0
         text = "There are no meals offered for #{ getTextForDayOfWeek(dayOfWeek) }."
       else
         text = "#{ getTextForDayOfWeek(dayOfWeek) }'s meals:\n"
-        for meal in meals
-          for i in [0..20]
-            text += "-"
-          text += "\n" + meal
+        for i in [0...meals.length]
+          text += "--- #{ mealDescriptions[i] } ---\n#{ meals[i] }"
       text = text.trim()
 
       res.reply text
@@ -115,6 +114,15 @@ module.exports = (robot) ->
       meals.push mealDescription
 
     return meals
+
+  getMealDescriptions = ($) ->
+    descriptions = []
+
+    tds = $ "td .speisebold"
+    for i in [0...tds.length]
+      descriptions.push tds.eq(i).text()
+
+    return descriptions
 
   # Transforms a text value into a number value corresponding to the Date-Object's .getDay().
   textToDayOfWeek = (text) ->
