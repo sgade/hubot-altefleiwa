@@ -27,8 +27,9 @@ planURL = "http://www.speisereise.com/content/speise/kantine_speiseplan.php"
 
 module.exports = (robot) ->
 
-  # We have our own http implementation because of encoding issues
+  # Fetches and returns the plan's binary buffer data for the given calendar week.
   getPlan = (calendarWeek, cb) ->
+    # We have our own http implementation because of encoding issues
     # request the page
     http.get planURLForCalendarWeek(calendarWeek), (res) ->
       body = null
@@ -46,9 +47,11 @@ module.exports = (robot) ->
       res.on 'error', (err) ->
         cb err, res, null
 
+  # Returns the plan URL for the given calendar week.
   planURLForCalendarWeek = (calendarWeek) ->
     planURL + "?kw=#{ calendarWeek }"
 
+  # HUBOT FEED ME
   robot.respond /feed me ?(today|tomorrow|mon|tue|wed|thu|fri)?/i, (res) ->
 
     day = res.match[1]
@@ -61,6 +64,7 @@ module.exports = (robot) ->
     
     replyForDayOfWeek dayOfWeek, res
 
+  # Replys for a "feed me" request for the given day of the week.
   replyForDayOfWeek = (dayOfWeek, res) ->
     if dayOfWeek < 1 || dayOfWeek > 5
       res.reply "I'm sorry, food is only served during the week."
@@ -97,6 +101,7 @@ module.exports = (robot) ->
 
       res.reply text
 
+  # Filters the given TD-Elements for the given day of the week and returns their text values.
   getMealsForDay = (dayOfWeek, tds) ->
     meals = []
 
@@ -111,6 +116,7 @@ module.exports = (robot) ->
 
     return meals
 
+  # Transforms a text value into a number value corresponding to the Date-Object's .getDay().
   textToDayOfWeek = (text) ->
     if /mon(day)?/i.test(text)
       1
@@ -129,6 +135,7 @@ module.exports = (robot) ->
     else
       -1
 
+  # Transforms a number value (e.g. from Date.getDay()) into its text representation.
   getTextForDayOfWeek = (dayOfWeek) ->
     today = new Date().getDay()
     if today == dayOfWeek
@@ -145,6 +152,7 @@ module.exports = (robot) ->
         when 5 then "Friday"
         when 6 then "Saturday"
 
+  # Returns the calendar week today is in.
   getCurrentCalendarWeek = ->
     # taken from http://www.web-toolbox.net/webtoolbox/datum/code-kalenderwocheaktuell.htm
     now = new Date();
