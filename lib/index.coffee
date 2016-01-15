@@ -47,7 +47,7 @@ module.exports = (robot) ->
         cb err, res, null
 
   planURLForCalendarWeek = (calendarWeek) ->
-    planURL + "?kw=" + calendarWeek
+    planURL + "?kw=#{ calendarWeek }"
 
   robot.respond /feed me ?(today|tomorrow|mon|tue|wed|thu|fri)?/i, (res) ->
 
@@ -75,7 +75,7 @@ module.exports = (robot) ->
 
     getPlan requestCalendarWeek, (err, response, body) ->
       if err?
-        res.reply "I'm sorry, I could not load the plan. (\"" + err + "\")"
+        res.reply "I'm sorry, I could not get the plan for #{ getTextForDayOfWeek(dayOfWeek) }.\nPlease try again in a little while."
         return
 
       body = iconv.decode body, planEncoding
@@ -86,9 +86,9 @@ module.exports = (robot) ->
 
       text = ""
       if meals.length == 0
-        text = "Nothing to eat today."
+        text = "There are no meals offered for #{ getTextForDayOfWeek(dayOfWeek) }."
       else
-        text = getTextForDayOfWeek(dayOfWeek) + "'s meals:\n"
+        text = "#{ getTextForDayOfWeek(dayOfWeek) }'s meals:\n"
         for meal in meals
           for i in [0..20]
             text += "-"
