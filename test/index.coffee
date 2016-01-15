@@ -12,5 +12,5 @@ lib(robot)
 for cb in callbacks
   cb({
     reply: console.log
-    match: [ "feed me tomorrow", "tomorrow" ]
+    match: [ "feed me thursday", "thursday" ]
   })

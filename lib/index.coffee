@@ -28,9 +28,9 @@ planURL = "http://www.speisereise.com/content/speise/kantine_speiseplan.php"
 module.exports = (robot) ->
 
   # We have our own http implementation because of encoding issues
-  getPlan = (cb) ->
+  getPlan = (calendarWeek, cb) ->
     # request the page
-    http.get planURL, (res) ->
+    http.get planURLForCalendarWeek(calendarWeek), (res) ->
       body = null
       # save all parts of the page
       res.on 'data', (bodyPart) ->
@@ -46,6 +46,8 @@ module.exports = (robot) ->
       res.on 'error', (err) ->
         cb err, res, null
 
+  planURLForCalendarWeek = (calendarWeek) ->
+    planURL + "?kw=" + calendarWeek
 
   robot.respond /feed me ?(today|tomorrow|mon|tue|wed|thu|fri)?/i, (res) ->
 
@@ -64,7 +66,14 @@ module.exports = (robot) ->
       res.reply "I'm sorry, food is only served during the week."
       return
 
-    getPlan (err, response, body) ->
+    requestCalendarWeek = getCurrentCalendarWeek()
+    todayDayOfWeek = new Date().getDay()
+    if todayDayOfWeek > dayOfWeek
+      # the requested day is in the past
+      # so take the next week
+      requestCalendarWeek += 1
+
+    getPlan requestCalendarWeek, (err, response, body) ->
       if err?
         res.reply "I'm sorry, I could not load the plan. (\"" + err + "\")"
         return
@@ -135,3 +144,12 @@ module.exports = (robot) ->
         when 4 then "Thursday"
         when 5 then "Friday"
         when 6 then "Saturday"
+
+  getCurrentCalendarWeek = ->
+    # taken from http://www.web-toolbox.net/webtoolbox/datum/code-kalenderwocheaktuell.htm
+    now = new Date();
+    thursdayDate = new Date(now.getTime() + (3-((now.getDay()+6) % 7)) * 86400000);
+    cwYear = thursdayDate.getFullYear();
+    thursdayCW = new Date(new Date(cwYear,0,4).getTime() + (3-((new Date(cwYear,0,4).getDay()+6) % 7)) * 86400000);
+
+    Math.floor(1.5 + (thursdayDate.getTime() - thursdayCW.getTime()) / 86400000/7);
