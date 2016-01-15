@@ -47,12 +47,12 @@ module.exports = (robot) ->
         cb err, res, null
 
 
-  robot.respond /feed me ?(tomorrow|mon|tue|wed|thu|fri)?/i, (res) ->
+  robot.respond /feed me ?(today|tomorrow|mon|tue|wed|thu|fri)?/i, (res) ->
 
     day = res.match[1]
     dayOfWeek = textToDayOfWeek day
 
-    if not day?
+    if not day? or /today/i.test(day)
       dayOfWeek = new Date().getDay()
     else if /tomorrow/i.test(day)
       dayOfWeek = ( new Date().getDay() + 1 ) % 7
