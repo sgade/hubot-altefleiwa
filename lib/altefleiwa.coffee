@@ -2,7 +2,7 @@
 #   Serves the menu for the Dieckert Cantina.
 #
 # Commands:
-#   hubot feed me [<day>] - Replys with the day's menu or today's menu, if no day was specified. If the day is in the past the menu of the next weeks is displayed.
+#   hubot feed me [<day>] - Replys with the day's menu or today's menu, if no day was specified.
 #
 # Notes:
 #   This script currently only supports the Alte Fleiwa run by Dieckert.
