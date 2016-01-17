@@ -2,7 +2,7 @@
   "name": "hubot-altefleiwa",
   "version": "1.2.1",
   "description": "Menu of the Alte Fleiwa",
-  "main": "lib/altefleiwa.coffee",
+  "main": "index.coffee",
   "scripts": {
     "test": "test/index.coffee"
   },
