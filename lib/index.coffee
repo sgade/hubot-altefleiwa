@@ -1,18 +1,12 @@
-# Description
-#   Gets today's menu for the Dieckert Cantina.
-#
-# Dependencies:
-#   "cheerio": "0.19.0"
-#   "iconv-lite": "0.4.13"
-#   "html-entities": "1.2.0"
-#
-# Configuration:
+# Description:
+#   Serves the menu for the Dieckert Cantina.
 #
 # Commands:
-#   hubot feed me - Replys with today's menu.
-#   hubot feed me tomorrow - Replys with tomorrow's menu.
+#   hubot feed me [<day>] - Replys with the day's menu or today's menu, if no day was specified. If the day is in the past the menu of the next weeks is displayed.
 #
 # Notes:
+#   This script currently only supports the Alte Fleiwa run by Dieckert.
+#   The plan is requested from http://www.speisereise.com/content/speise/kantine_speiseplan.php.
 #
 # Author:
 #   sgade
